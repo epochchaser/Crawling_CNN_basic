@@ -1,6 +1,7 @@
 import React, { Component, useState, useEffect } from 'react';
 import { CNN_WORLD } from '../common/Constants';
 import { CnnHtmlParser } from './CnnHtmlParser';
+import downloadImg from '../common/Downloader';
 
 export const Cnn = ({ requester }) => {
   const [headLines, setHeadLines] = useState([]);
@@ -10,6 +11,8 @@ export const Cnn = ({ requester }) => {
       const result = await requester.get(CNN_WORLD);
 
       const headLines = new CnnHtmlParser().parse(result.data);
+
+      headLines.map(d => downloadImg(d.image_url));
       setHeadLines(headLines);
     }
 
